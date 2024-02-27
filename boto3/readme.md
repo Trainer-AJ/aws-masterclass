@@ -1,5 +1,5 @@
 # Python basics - 
-
+[logging python](https://docs.python.org/3/howto/logging.html)
 # boto3 docs - 
 https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#passing-credentials-as-parameters
 ```py
