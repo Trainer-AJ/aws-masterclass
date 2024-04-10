@@ -22,13 +22,3 @@ else
     aws s3 ls | awk '{print $3}'
 fi
 
-{
-
-    ID = 547,
-    name = "AJ",
-    email = {
-        email-1,
-        email-2
-    },
-    
-}
