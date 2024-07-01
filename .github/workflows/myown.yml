@@ -28,11 +28,11 @@ jobs:
           MY_WORK_DIR="${{ github.workspace }}"
           echo "MY_WORK_DIR=$MY_WORK_DIR" >> $GITHUB_ENV
           
-      - name: check dir
+      - name: List files in workspace
         run: |
+          echo "Current directory: $(pwd)"
           ls -l "${{ github.workspace }}"
 
-       
   build-and-deploy:
     needs: verify-vars
     runs-on: ubuntu-latest
