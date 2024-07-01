@@ -36,9 +36,7 @@ jobs:
     
     - name: Create s3 bucket
       run: |
-        aws s3api create-bucket \
-        --bucket $s3 \
-        --region $region
+        aws s3 mb s3://$s3 --region $region
     
     - name: Attach s3 bucket policy 
       run: aws s3api put-bucket-policy --bucket $s3 --policy file://policy.json
