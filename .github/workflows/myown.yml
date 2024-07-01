@@ -19,6 +19,11 @@ jobs:
     steps:
      - name: verify vars
        run: echo $s3 and $region || echo "no variables defined !!!"
+     - name: dir
+       run: |
+         pwd
+         ls
+         ls | grep *json
        
   build-and-deploy:
     needs: verify-vars
