@@ -30,7 +30,7 @@ jobs:
           
       - name: check dir
         run: |
-          cat ${{ github.workspace }}/DevOps/policy.json
+          ls -l "${{ github.workspace }}"
 
        
   build-and-deploy:
