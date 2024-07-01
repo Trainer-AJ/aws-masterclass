@@ -30,7 +30,7 @@ jobs:
           
       - name: check dir
         run: |
-          echo "MY_WORK_DIR=$MY_WORK_DIR"
+          cat ${{ github.workspace }}/DevOps/policy.json
 
        
   build-and-deploy:
@@ -53,7 +53,8 @@ jobs:
       continue-on-error: true
     
     - name: Attach s3 bucket policy 
-      run: aws s3api put-bucket-policy --bucket $s3 --policy file://DevOps/policy.json
+      run: aws s3api put-bucket-policy --bucket $s3 --policy file://policy.json
+      working-directory: ${{ github.workspace }}/DevOps
 
     - name: Provision s3 website
       run: |
