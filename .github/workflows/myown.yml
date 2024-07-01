@@ -8,6 +8,10 @@ on:
 env:
   s3: my-own-aws742
   region: ap-south-1
+  AWS_DEFAULT_REGION: ap-south-1
+  AWS_DEFAULT_OUTPUT: json
+
+# for creating buckets voth region shouldd be same else says request send to wrong endpoint !!
 
 jobs:
   verify-vars:
