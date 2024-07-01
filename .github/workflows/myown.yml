@@ -10,12 +10,19 @@ env:
   region: ap-south-1
 
 jobs:
+  verify-vars:
+    runs-on: ubuntu-latest
+    steps:
+     - name: verify vars
+       run: echo $s3 and $region
+       
   build-and-deploy:
+    needs: verify-vars
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v1
-
+      
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
