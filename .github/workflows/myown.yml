@@ -17,10 +17,21 @@ jobs:
   verify-vars:
     runs-on: ubuntu-latest
     steps:
-     - name: verify vars
-       run: echo $s3 and $region || echo "no variables defined !!!"
-     - name: dir
-       run: ls
+      - name: verify vars
+        run: |
+          echo "s3=$s3 and region=$region" || echo "no variables defined !!!"
+          
+      - name: dir
+        run: |
+          echo "${{ github.workspace }}"
+          
+          MY_WORK_DIR="${{ github.workspace }}"
+          echo "MY_WORK_DIR=$MY_WORK_DIR" >> $GITHUB_ENV
+          
+      - name: check dir
+        run: |
+          echo "MY_WORK_DIR=$MY_WORK_DIR"
+
        
   build-and-deploy:
     needs: verify-vars
@@ -39,9 +50,10 @@ jobs:
     - name: Create s3 bucket
       run: |
         aws s3 mb s3://$s3 --region $region
+      continue-on-error: true
     
     - name: Attach s3 bucket policy 
-      run: aws s3api put-bucket-policy --bucket $s3 --policy file://policy.json
+      run: aws s3api put-bucket-policy --bucket $s3 --policy file://DevOps/policy.json
 
     - name: Provision s3 website
       run: |
