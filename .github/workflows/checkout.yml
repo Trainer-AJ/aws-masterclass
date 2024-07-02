@@ -24,14 +24,15 @@ jobs:
           repository: 'trainer-aj/aws-masterclass' # Specify the repository name with owner (e.g., 'user/repo')
           ref: 'refs/heads/main'         # Specify the branch, tag, or SHA to checkout (defaults to the reference or SHA for the triggering event)
       - name: ls
-        run: ls
+        run: ls -ltr
       - name: check policy
-        run: cat DevOps/policy.json
+        run: cat policy.json
         working-directory: ./DevOps
       - name: chnage it
         shell: bash
         run: |
              s3_value="mybucket"
              sed -i "s|arn:aws:s3:::.*|arn:aws:s3:::$s3_value/*\"|" policy.json
+        working-directory: ./DevOps
        
      
