@@ -14,3 +14,15 @@ jobs:
           ref: 'refs/heads/main'         # Specify the branch, tag, or SHA to checkout (defaults to the reference or SHA for the triggering event)
       - name: ls
         run: ls
+
+  go_to_file:
+    runs_on: ubuntu-latest
+    steps:
+      - name: check policy
+        run: cat DevOps/policy.json
+      - name: chnage it
+        run: |
+             s3_value="mybucket"
+             sed -i "s|arn:aws:s3:::.*|arn:aws:s3:::$s3_value/*\"|" policy.json
+       
+     
