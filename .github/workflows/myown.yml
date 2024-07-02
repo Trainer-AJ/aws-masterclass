@@ -6,7 +6,7 @@ on:
     - main
 
 env:
-  s3: my-own-aws742
+  s3: my-own-aws65654
   region: ap-south-1
   AWS_DEFAULT_REGION: ap-south-1
   AWS_DEFAULT_OUTPUT: json
@@ -21,46 +21,61 @@ jobs:
         run: |
           echo "s3=$s3 and region=$region" || echo "no variables defined !!!"
           
-      - name: dir
+      - name: chnage Policy
+        shell: bash
         run: |
-          echo "${{ github.workspace }}"
+             s3_value="mybucket"
+             sed -i "s|arn:aws:s3:::.*|arn:aws:s3:::$s3_value/*\"|" policy.json
+        working-directory: ./DevOps
+        
+      - name: check policy
+        run: cat policy.json
+        working-directory: ./DevOps
+      
           
-          MY_WORK_DIR="${{ github.workspace }}"
-          echo "MY_WORK_DIR=$MY_WORK_DIR" >> $GITHUB_ENV
+      # - name: dir
+      #   run: |
+      #     echo "${{ github.workspace }}"
           
-      - name: List files in workspace
-        run: |
-          echo "Current directory: $(pwd)"
-          ls -l "${{ github.workspace }}"
+      #     MY_WORK_DIR="${{ github.workspace }}"
+      #     echo "MY_WORK_DIR=$MY_WORK_DIR" >> $GITHUB_ENV
+          
+      # - name: List files in workspace
+      #   run: |
+      #     echo "Current directory: $(pwd)"
+      #     ls -l "${{ github.workspace }}"
 
   build-and-deploy:
     needs: verify-vars
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          repository: 'trainer-aj/aws-masterclass' # Specify the repository name with owner (e.g., 'user/repo')
+          ref: 'refs/heads/main' 
       
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v3
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
     
-    - name: Create s3 bucket
-      run: |
-        aws s3 mb s3://$s3 --region $region
-      continue-on-error: true
-    
-    - name: Attach s3 bucket policy 
-      run: aws s3api put-bucket-policy --bucket $s3 --policy file://policy.json
-      working-directory: ${{ github.workspace }}/DevOps
+      - name: Create s3 bucket
+        run: |
+          aws s3 mb s3://$s3 --region $region
+        continue-on-error: true
+      
+      - name: Attach s3 bucket policy 
+        run: aws s3api put-bucket-policy --bucket $s3 --policy file://policy.json
+        working-directory: ./DevOps
 
-    - name: Provision s3 website
-      run: |
-          aws s3 website s3://$s3/ \
-          --index-document index.html \
-          --error-document error.html
+      - name: Provision s3 website
+        run: |
+            aws s3 website s3://$s3/ \
+            --index-document index.html \
+            --error-document error.html
 
-    - name: Deploy static site to S3 bucket
-      run: aws s3 sync . s3://$s3 --delete
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync . s3://$s3 --delete
