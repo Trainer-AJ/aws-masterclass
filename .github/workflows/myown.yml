@@ -6,7 +6,7 @@ on:
     - main
 
 env:
-  s3: my-own-aws65654
+  s3: "my-own-aws94594"
   region: ap-south-1
   AWS_DEFAULT_REGION: ap-south-1
   AWS_DEFAULT_OUTPUT: json
@@ -31,7 +31,7 @@ jobs:
       - name: chnage Policy
         shell: bash
         run: |
-             s3_value="mybucket"
+             s3_value=$s3
              sed -i "s|arn:aws:s3:::.*|arn:aws:s3:::$s3_value/*\"|" policy.json
         working-directory: ./DevOps
         
