@@ -30,7 +30,7 @@ jobs:
         
       - name: check policy
         run: cat policy.json
-        working-directory: ${{ GITHUB_WORKSPACE }}/DevOps
+        working-directory: ${{ vars.GITHUB_WORKSPACE }}/DevOps
       
           
       # - name: dir
