@@ -1,0 +1,16 @@
+name: Repo test
+
+on:
+  workflow_dispatch
+
+jobs:
+  my_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          repository: 'trainer-aj/aws-masterclass' # Specify the repository name with owner (e.g., 'user/repo')
+          ref: 'refs/heads/main'         # Specify the branch, tag, or SHA to checkout (defaults to the reference or SHA for the triggering event)
+      - name: ls
+        run: ls
