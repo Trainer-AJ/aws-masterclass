@@ -26,11 +26,11 @@ jobs:
         run: |
              s3_value="mybucket"
              sed -i "s|arn:aws:s3:::.*|arn:aws:s3:::$s3_value/*\"|" policy.json
-        working-directory: ./DevOps
+        working-directory: DevOps
         
       - name: check policy
         run: cat policy.json
-        working-directory: ./DevOps
+        working-directory: ${{ GITHUB_WORKSPACE }}/DevOps
       
           
       # - name: dir
