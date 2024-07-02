@@ -17,6 +17,13 @@ jobs:
   verify-vars:
     runs-on: ubuntu-latest
     steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          repository: 'trainer-aj/aws-masterclass' # Specify the repository name with owner (e.g., 'user/repo')
+          ref: 'refs/heads/main'
+          
       - name: verify vars
         run: |
           echo "s3=$s3 and region=$region" || echo "no variables defined !!!"
@@ -26,11 +33,11 @@ jobs:
         run: |
              s3_value="mybucket"
              sed -i "s|arn:aws:s3:::.*|arn:aws:s3:::$s3_value/*\"|" policy.json
-        working-directory: DevOps
+        working-directory: ./DevOps
         
       - name: check policy
         run: cat policy.json
-        working-directory: ${{ vars.GITHUB_WORKSPACE }}/DevOps
+        working-directory: ./DevOps
       
           
       # - name: dir
