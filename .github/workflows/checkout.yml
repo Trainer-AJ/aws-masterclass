@@ -16,7 +16,7 @@ jobs:
         run: ls
 
   go_to_file:
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: check policy
         run: cat DevOps/policy.json
