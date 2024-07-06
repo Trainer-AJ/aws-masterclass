@@ -1,3 +1,4 @@
+# creates dynamodb 
 Resources:
   DDBTable:
     Type: AWS::DynamoDB::Table

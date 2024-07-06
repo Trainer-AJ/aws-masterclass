@@ -1,0 +1,10 @@
+Resources:
+  MyS3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      #BucketName: my-unique-bucket-name   # Replace with your desired bucket name
+      Tags:
+        - Key: env
+          Value: Prod
+        - Key: dept
+          Value: IT
