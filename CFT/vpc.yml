@@ -1,0 +1,33 @@
+#########################
+# Parameter Name, Description, Default Value vsible in AWS Console
+
+Parameters:
+  VPCCidr:
+    Type: String
+    Default: 164.16.0.0/16
+    Description: Enter the CIDR block for the VPC
+
+  VPCName:
+    Type: String
+    Default: Upgrad-VPC-0
+    Description: Enter the name of the VPC
+
+#################################
+# what you wish to create 
+Resources:
+#############################
+# Local name for VPC resource
+  KHVPC:
+  # Which type of aws resource you want to create (s3, ec2, vpc, etc)
+    # Type: 'AWS::S3::Bucket'
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VPCCidr
+      Tags: 
+        -   Key: Name
+            Value: !Ref VPCName
+        -   Key: Owner
+            Value: AJ
+        -   Key: Project
+            Value: Demo
+

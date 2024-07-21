@@ -1,0 +1,50 @@
+Parameters:
+  VPCID:
+    Description: Provide VPC ID to create subnets
+    Type: String
+    Default: vpc-038636251a5d5f19d
+  VpcAzs:
+    Description: Provide the list of Availability Zones
+    Type: CommaDelimitedList
+    Default: a, b, c
+  DbSubnetIpBlocks:
+    Description: Provide the list of IP blocks for the DB subnets
+    Type: CommaDelimitedList
+    Default: 164.16.0.0/24,164.16.1.0/24,164.16.2.0/24
+Resources:
+  DbSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Sub
+        - ${AWS::Region}${AZ}
+        - AZ: !Select
+            - 0
+            - !Ref VpcAzs
+      VpcId: !Ref VPCID
+      CidrBlock: !Select
+        - 0
+        - !Ref DbSubnetIpBlocks
+  DbSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Sub
+        - ${AWS::Region}${AZ}
+        - AZ: !Select
+            - 1
+            - !Ref VpcAzs
+      VpcId: !Ref VPCID
+      CidrBlock: !Select
+        - 1
+        - !Ref DbSubnetIpBlocks
+  DbSubnet3:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Sub
+        - ${AWS::Region}${AZ}
+        - AZ: !Select
+            - 2
+            - !Ref VpcAzs
+      VpcId: !Ref VPCID
+      CidrBlock: !Select
+        - 2
+        - !Ref DbSubnetIpBlocks
