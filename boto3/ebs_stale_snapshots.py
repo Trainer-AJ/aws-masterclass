@@ -7,6 +7,18 @@ AIM: Delete all unwanted EBS Volumes i.e the ones which are not ATTACHED to any 
 3. Iterate through each snapshot and delete if it's not attached to any volume or the volume is not attached to a running instance
 
 - You need describe ec2, ebs + snapshot delete permissions
+- deploy then test code = otherwise takes old code only 
+- increase time to 10 sec 
+{
+  "errorType": "Sandbox.Timedout",
+  "errorMessage": "RequestId: 7cbba0c6-cef1-4c8c-8abe-62c08c52b049 Error: Task timed out after 3.00 seconds"
+}
+
+#########
+For testing: 
+1. create ec2 and volumes snapshot
+2. delete ec2
+3. test lambda notice it deletes snapshot :) 
 
 '''
 
@@ -46,4 +58,6 @@ def lambda_handler(event, context):
                 if e.response['Error']['Code'] == 'InvalidVolume.NotFound':
                     # The volume associated with the snapshot is not found (it might have been deleted)
                     ec2.delete_snapshot(SnapshotId=snapshot_id)
+                    print('#' * 50)
                     print(f"Deleted EBS snapshot {snapshot_id} as its associated volume was not found.")
+                    print('#' * 50)
