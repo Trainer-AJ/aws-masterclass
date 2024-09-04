@@ -1,3 +1,6 @@
+"""
+install dotenv then load else shows nothing
+"""
 # pip install python-dotenv
 
 import os 
@@ -16,6 +19,6 @@ def s3():
     response = s3.list_buckets()
     print(response)
 
-def lambda_handler(event, context):
+# def lambda_handler(event, context):
 test_env()
 s3()
