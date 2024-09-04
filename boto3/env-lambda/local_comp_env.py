@@ -1,5 +1,6 @@
 """
 install dotenv then load else shows nothing
+loads everything that you specify in .env file
 """
 # pip install python-dotenv
 
