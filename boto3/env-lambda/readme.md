@@ -11,6 +11,7 @@ import os
 - AWS_REGION – The AWS Region where the Lambda function is executed. If defined, this value overrides the AWS_DEFAULT_REGION.
 
 ## Env Vars: 
+- the env you specify in lambda console auto reachable to function :) 
 ![image](https://github.com/user-attachments/assets/a8cd2c62-d21a-4111-b85b-8d2cfc2a5b01)
 
 ## Success msg after update: 
