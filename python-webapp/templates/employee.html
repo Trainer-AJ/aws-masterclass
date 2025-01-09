@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Employee Details</h1>
+        <table>
+            <tr>
+                <th>Employee ID</th>
+                <td>{{ employee.employee_id }}</td>
+            </tr>
+            <tr>
+                <th>First Name</th>
+                <td>{{ employee.first_name }}</td>
+            </tr>
+            <tr>
+                <th>Last Name</th>
+                <td>{{ employee.last_name }}</td>
+            </tr>
+            <tr>
+                <th>Department</th>
+                <td>{{ employee.department }}</td>
+            </tr>
+            <tr>
+                <th>Salary</th>
+                <td>{{ employee.salary if employee.salary is not none else "N/A" }}</td>
+            </tr>
+        </table>
+        <br>
+        <a href="/">Go Back</a>
+    </div>
+</body>
+</html>
