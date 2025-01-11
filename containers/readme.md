@@ -34,3 +34,6 @@ docker push oj09/simple-webpage:6june
 4. In the Services tab, under Service name, choose the service you created in Step 3: Create the service.
 Choose the Tasks tab, and then choose the task in your service.
 On the task page, in the Configuration section, under Public IP, choose Open address.
+> A task is the instantiation of a task definition within a cluster. You can run a standalone task, or you can run a task as part of a service.
+> You can use an Amazon ECS service to run and maintain your desired number of tasks simultaneously in an Amazon ECS cluster.
+>  How it works is that, if any of your tasks fail or stop for any reason, the Amazon ECS service scheduler launches another instance based on your task definition. It does this to replace it and thereby maintain your desired number of tasks in the service.
