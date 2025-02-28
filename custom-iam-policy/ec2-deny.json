@@ -1,0 +1,27 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Deny",
+            "Action": "ec2:RunInstances",
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "ec2:InstanceType": "t2.micro",
+                    "aws:RequestedRegion": "eu-west-2"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ec2:RunInstances",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "ec2:InstanceType": "t2.micro",
+                    "aws:RequestedRegion": "eu-west-2"
+                }
+            }
+        }
+    ]
+}
