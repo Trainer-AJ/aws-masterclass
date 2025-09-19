@@ -4,6 +4,7 @@
 3. IAM roles to lambda
 4. 15 sec timeout
 5. env vars:
+   
 | **Key**           | **Value**                    |
 |-------------------|------------------------------|
 | S3_BUCKET_NAME     | just-ec2-transfer-777        |
