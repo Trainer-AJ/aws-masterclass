@@ -52,7 +52,10 @@ TOP_MANAGERS_EMAILS = [
     "manager3@gmail.com" ,
     "raj@gmail.com"
 ]
- 
+
+# Get credentials at module import time
+CLIENT_ID, CLIENT_SECRET, TENANT_ID = get_azure_credentials()
+
 # Microsoft Graph API endpoint
 GRAPH_API_ENDPOINT = "https://graph.microsoft.com/v1.0"
 AUTHORITY_URL = f"https://login.microsoftonline.com/{TENANT_ID}"
@@ -120,10 +123,6 @@ def find_designated_manager(user_email, headers, stop_at_managers):
  
     return None
 
-import os
-import io
-import csv
-import boto3
 
 def save_to_csv_s3(data):
     """
