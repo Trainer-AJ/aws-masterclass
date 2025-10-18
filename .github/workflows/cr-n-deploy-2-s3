@@ -1,0 +1,57 @@
+name: Create n Deploy to S3
+
+on:
+  push:
+    branches:
+      - lambda  # or your deploy branch
+
+env:
+  BUCKET_NAME: s3website6564
+  REGION: ap-south-1       # Change to your preferred region
+  SOURCE_DIR: devops        # Folder to upload
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.REGION }}
+
+      - name: Create S3 bucket (if not exists)
+        run: |
+          if ! aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null; then
+            aws s3api create-bucket \
+              --bucket "$BUCKET_NAME" \
+              --region "$REGION" \
+              --create-bucket-configuration LocationConstraint="$REGION"
+          else
+            echo "Bucket $BUCKET_NAME already exists"
+          fi
+
+      - name: Disable Block Public Access
+        run: |
+          aws s3api put-public-access-block \
+            --bucket "$BUCKET_NAME" \
+            --public-access-block-configuration 'BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false'
+
+      - name: Copy files to S3
+        run: |
+          aws s3 cp $SOURCE_DIR s3://$BUCKET_NAME/ --recursive
+
+      - name: Apply bucket policy
+        run: |
+          # Replace bucket name in policy file dynamically
+          sed -i "s|arn:aws:s3:::.*|arn:aws:s3:::${BUCKET_NAME}/*\"|" DevOps/policy.json
+
+          # Apply the policy
+          aws s3api put-bucket-policy \
+            --bucket "$BUCKET_NAME" \
+            --policy file://DevOps/policy.json
