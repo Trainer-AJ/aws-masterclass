@@ -4,6 +4,9 @@ on:
   push:
     branches: [ "lambda" ]
 
+env:
+   AWS_REGION: ap-south-1
+
 permissions:
   id-token: write   # This is required for OIDC authentication
   contents: read    # This is required to checkout the repository
@@ -28,15 +31,15 @@ jobs:
     - name: Deploy on dry run mode
       uses: aws-actions/aws-lambda-deploy@v1.1.0
       with:
-          function-name: my-function-name
-          code-artifacts-dir: my-code-artifacts-dir
+          function-name: gh
+          code-artifacts-dir: lambda
           dry-run: true
 
     - name: Deploy Lambda Function
       uses: aws-actions/aws-lambda-deploy@v1.1.0
       with:
-        function-name: my-function-name
-        code-artifacts-dir: my-code-artifacts-dir
+        function-name: gh
+        code-artifacts-dir: lambda
         handler: index.handler
-        runtime: nodejs22.x
+        runtime: python3.13
         # Add any additional inputs this action supports
