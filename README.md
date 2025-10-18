@@ -5,7 +5,7 @@
 - other one that check If any such resource running that caused bill in past 
 aws s3 ls | awk '{print $3}'
 
-# AWS Prod
+# AWS Production
 - AWS Org setup : 1 aws account for security team : IAM identity center + Security hub /// 2nd for sandbox /// 3rd for Prod /// 4th Dev (lower) env etc
 - **real world use case**: Need to send billing for Amazon Q use to Managers. List of 65k total users in azure 183 total in azure all of them have Q license, we just need to send bills to those users manager
   1. scan those users from AWS Identity center
