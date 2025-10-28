@@ -12,6 +12,76 @@ aws s3 ls | awk '{print $3}'
   2. fetch their manager name from entra ID // email is forgein key (Vertical Delivery heads -- like Bhatt >> Goyal >> Arshi => send bill to Arshi )
   3. once csv done store in s3
   4. lambda in another aws account // Identity center in another
+ 
+## linux
+Video - [youtube](https://youtu.be/xpUlOn4h1fg)
+
+---
+
+## 🧠 **Process Creation & Termination Recap**
+- **`fork()`**: System call used to create a new process (child).
+- After `fork()`:
+  - **Parent and child run concurrently**, or
+  - **Parent waits** for child to finish using `wait()`.
+
+---
+
+## 🧟 **Zombie Process**
+- **Definition**: A process that has terminated (called `exit()`) but **still has an entry in the process table**.
+- **Why it happens**:
+  - Parent **does not call `wait()`** after `fork()`.
+  - Child process **calls `exit()`**, but parent **doesn’t collect** its exit status.
+  - OS **deallocates resources**, but **keeps process table entry** until parent collects status.
+- **Result**: Process is **dead but still listed** in the process table → hence, a *zombie*.
+- **Problem**:
+  - If **many zombies** accumulate, the **process table fills up**.
+  - Since **PIDs are finite**, **no new processes** can be created.
+- **Resolution**:
+  - When the **parent eventually exits**, the zombie becomes an **orphan**.
+
+---
+
+## 👶 **Orphan Process**
+- **Definition**: A **child process whose parent has terminated** before it.
+- **How it happens**:
+  - Parent and child run concurrently.
+  - **Parent calls `exit()`** before child finishes.
+  - Child is still running → becomes an **orphan**.
+- **What happens next**:
+  - Orphan is **adopted by `init` process** (PID 1).
+  - `init` **calls `wait()`** to clean up after the orphan.
+- **Term**: This adoption is called **re-parenting**.
+
+---
+
+## 🔁 **Lifecycle Summary**
+1. **Child exits**, parent doesn’t wait → **Zombie**.
+2. **Parent exits**, zombie becomes **Orphan**.
+3. **Orphan adopted by `init`**, which cleans it up.
+
+---
+
+## ⚠️ **System Impact**
+- **Too many zombies**:
+  - Process table fills up.
+  - **No new processes** can be created.
+  - May require **system reboot**.
+- **Too many orphans**:
+  - Overloads the **`init` process**.
+  - Can **slow down the system**.
+
+---
+
+## 💣 **Fork Bomb**
+- **Definition**: A malicious or accidental infinite loop that repeatedly calls `fork()` without `wait()`.
+- **Effect**:
+  - Rapid creation of child processes.
+  - Leads to **massive zombie creation**.
+  - **Crashes the system** due to exhausted resources.
+- **Solution**: **Reboot** the system.
+
+---
+
 
 ## git
 To maintain **code traceability** for every release you do — i.e., mapping every **build ID** to the exact **commit ID** it was built from — you **do not need to cherry-pick or rebase**. Instead, you can **create a release branch directly from that commit ID**.
